@@ -9,19 +9,19 @@ public class GameBoard {
         this.height = height;
     }
     
-    private int getWidth() {
+    public int getWidth() {
         return this.width;
     }
     
-    private int getHeight() {
+    public int getHeight() {
         return this.height;
     }
     
-    private void setWidth(int newWidth) {
+    public void setWidth(int newWidth) {
         this.width = newWidth;
     }
     
-    private void setHeight(int newHeight) {
+    public void setHeight(int newHeight) {
         this.height = newHeight;
     }
 }

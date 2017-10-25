@@ -9,7 +9,12 @@ package gameoflife;
 public class GameOfLife {
 
     public static void main(String[] args) {
-
+        GameBoard board = new GameBoard(0, 0);
+        GameplayTools tools = new GameplayTools(0);
+        
+        tools.setGame(board.getWidth(), board.getHeight());
+        
+        tools.checkVitality();
     }
 
     
