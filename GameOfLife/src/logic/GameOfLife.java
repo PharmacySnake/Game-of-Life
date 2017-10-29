@@ -4,18 +4,22 @@
   3. Any live cell with two or three live neighbours lives on to the next generation.
   4. Any dead cell with exactly three live neighbours becomes a live cell.
  */
-package gameoflife;
+package logic;
 
 public class GameOfLife {
 
     public static void main(String[] args) {
-        GameBoard board = new GameBoard(0, 0);
-        GameplayTools tools = new GameplayTools(0);
-        
-        tools.setGame(board.getWidth(), board.getHeight());
-        
-        tools.checkVitality();
-    }
+        GameBoard board = new GameBoard(5, 5);
+        GameplayTools tools = new GameplayTools(100, board);
 
-    
+        tools.setGame();
+        System.out.println("");
+        int i = 0;
+        while (i != 2) {
+            tools.drawCycle();
+            System.out.println("");
+            i++;
+        }
+
+    }
 }

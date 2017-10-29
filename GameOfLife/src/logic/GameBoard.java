@@ -1,4 +1,4 @@
-package gameoflife;
+package logic;
 
 public class GameBoard {
     private int width;
@@ -9,19 +9,19 @@ public class GameBoard {
         this.height = height;
     }
     
-    public int getWidth() {
+    protected int getWidth() {
         return this.width;
     }
     
-    public int getHeight() {
+    protected int getHeight() {
         return this.height;
     }
     
-    public void setWidth(int newWidth) {
+    protected void setWidth(int newWidth) {
         this.width = newWidth;
     }
     
-    public void setHeight(int newHeight) {
+    protected void setHeight(int newHeight) {
         this.height = newHeight;
     }
 }
