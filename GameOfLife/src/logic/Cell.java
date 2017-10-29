@@ -20,7 +20,7 @@ public class Cell {
         return this.locationY;
     }
 
-    protected boolean getStatus() {
+    public boolean getStatus() {
         return this.lifeStatus;
     }
 

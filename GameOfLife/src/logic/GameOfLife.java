@@ -6,20 +6,25 @@
  */
 package logic;
 
+import java.util.concurrent.TimeUnit;
+import javax.swing.SwingUtilities;
+import visuals.Visuals;
+
 public class GameOfLife {
 
-    public static void main(String[] args) {
-        GameBoard board = new GameBoard(5, 5);
-        GameplayTools tools = new GameplayTools(100, board);
+    public static void main(String[] args) throws InterruptedException {
+        GameBoard board = new GameBoard();
+        board.askForDimensions();
 
-        tools.setGame();
-        System.out.println("");
-        int i = 0;
-        while (i != 2) {
-            tools.drawCycle();
-            System.out.println("");
-            i++;
+        GameplayTools tools = new GameplayTools(10, board);
+        Visuals visuals = new Visuals(tools, board.getWidth(), board.getHeight());
+        SwingUtilities.invokeLater(visuals);
+
+        while (true) {
+            visuals.generation();
+            TimeUnit.MILLISECONDS.sleep(10);
+            tools.checkVitality();
         }
-
     }
+
 }

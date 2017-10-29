@@ -7,7 +7,7 @@ public class GameplayTools {
 
     private final double random;
     private final GameBoard board;
-    private List<Cell> cells;
+    private final List<Cell> cells;
 
     public GameplayTools(int random, GameBoard board) {
         this.random = random;
@@ -20,10 +20,10 @@ public class GameplayTools {
             for (int x = 0; x < this.board.getWidth(); x++) {
                 if (cellRandomStatus()) {
                     this.cells.add(new Cell(x, y, true));
-                    System.out.print("*");
+                    //System.out.print("*");
                 } else {
                     this.cells.add(new Cell(x, y, false));
-                    System.out.print("-");
+                    //System.out.print("-");
                 }
             }
             System.out.println("");
@@ -35,20 +35,27 @@ public class GameplayTools {
     }
 
     public void checkVitality() {
-        for (Cell cell : this.cells) {
+        this.cells.forEach((cell) -> {
             int neighbours = countNeighbours(cell);
 
-            if (!cell.getStatus() && neighbours == 3) {
+            if (cell.getStatus() == false) {
+                if (neighbours == 3) {
+                    cell.setStatus(true);
+                }
+
+            } else if (neighbours == 3) {
                 cell.setStatus(true);
-            } else if (neighbours == 3 || neighbours == 2) {
+
+            } else if (neighbours == 2) {
                 cell.setStatus(true);
+
             } else {
                 cell.setStatus(false);
             }
-        }
+        });
     }
 
-    public int countNeighbours(Cell cell) {
+    private int countNeighbours(Cell cell) {
         int neighbours = 0;
         int startX = setStart(cell.getX());
         int endX = setEnd(cell.getX());
@@ -59,16 +66,14 @@ public class GameplayTools {
             for (int x = startX; x <= endX; x++) {
                 if (notOverlapping(cell, x, y) && checkCellStatus(x, y)) {
                     neighbours++;
-                    //break;
                 }
-                //System.out.println(startX + " : " + x + "-" + y);
             }
         }
 
         return neighbours;
     }
 
-    protected void drawCycle() {
+    public void drawCycle() {
         int x = 0;
         checkVitality();
 
@@ -85,11 +90,6 @@ public class GameplayTools {
                 x = 0;
             }
         }
-    }
-
-    @Override
-    public String toString() {
-        return null;
     }
 
     private int setStart(int value) {
@@ -116,10 +116,11 @@ public class GameplayTools {
         return false;
     }
 
-    protected boolean notOverlapping(Cell cell, int otherX, int otherY) {
-        if (cell.getX() == otherX && cell.getY() == otherY) {
-            return false;
-        }
-        return true;
+    private boolean notOverlapping(Cell cell, int otherX, int otherY) {
+        return !(cell.getX() == otherX && cell.getY() == otherY);
+    }
+
+    public List getCells() {
+        return this.cells;
     }
 }
