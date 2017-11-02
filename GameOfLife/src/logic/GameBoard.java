@@ -50,7 +50,7 @@ public class GameBoard {
                 if (this.height > 0) {
                     break;
                 }
-            } catch (Exception e) {
+            } catch (NumberFormatException e) {
                 System.out.println("only positive whole numbers.");
             }
         }

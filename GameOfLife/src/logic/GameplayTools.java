@@ -7,7 +7,7 @@ public class GameplayTools {
 
     private final double random;
     private final GameBoard board;
-    private final List<Cell> cells;
+    private List<Cell> cells;
 
     public GameplayTools(int random, GameBoard board) {
         this.random = random;
@@ -20,39 +20,47 @@ public class GameplayTools {
             for (int x = 0; x < this.board.getWidth(); x++) {
                 if (cellRandomStatus()) {
                     this.cells.add(new Cell(x, y, true));
-                    //System.out.print("*");
                 } else {
                     this.cells.add(new Cell(x, y, false));
-                    //System.out.print("-");
                 }
             }
-            System.out.println("");
         }
     }
 
+    //made for personal testing
+    /*public void setSpecific() {
+        for (int y = 0; y < this.board.getHeight(); y++) {
+            for (int x = 0; x < this.board.getWidth(); x++) {
+                if (y == 32 && x >= 28 && x <= 37) {
+                    this.cells.add(new Cell(x, y, true));
+                } else {
+                    this.cells.add(new Cell(x, y, false));
+                }
+            }
+        }
+    }*/
     private boolean cellRandomStatus() {
         return Math.random() * 100 <= this.random;
     }
 
-    public void checkVitality() {
+    public void nextGeneration() {
+        List<Cell> nextGeneration = new ArrayList<>();
+
         this.cells.forEach((cell) -> {
             int neighbours = countNeighbours(cell);
 
-            if (cell.getStatus() == false) {
-                if (neighbours == 3) {
-                    cell.setStatus(true);
-                }
+            if (!cell.getStatus() && neighbours == 3) {
+                nextGeneration.add(new Cell(cell.getX(), cell.getY(), true));
 
-            } else if (neighbours == 3) {
-                cell.setStatus(true);
-
-            } else if (neighbours == 2) {
-                cell.setStatus(true);
+            } else if (cell.getStatus() && (neighbours == 2 || neighbours == 3)) {
+                nextGeneration.add(new Cell(cell.getX(), cell.getY(), true));
 
             } else {
-                cell.setStatus(false);
+                nextGeneration.add(new Cell(cell.getX(), cell.getY(), false));
             }
         });
+        System.out.println(this.cells);
+        this.cells = nextGeneration;
     }
 
     private int countNeighbours(Cell cell) {
@@ -73,25 +81,6 @@ public class GameplayTools {
         return neighbours;
     }
 
-    public void drawCycle() {
-        int x = 0;
-        checkVitality();
-
-        for (Cell cell : this.cells) {
-            if (cell.getStatus()) {
-                System.out.print("*");
-            } else {
-                System.out.print("-");
-            }
-            x++;
-
-            if (x == this.board.getWidth()) {
-                System.out.println("");
-                x = 0;
-            }
-        }
-    }
-
     private int setStart(int value) {
         if (value - 1 < 0) {
             return value;
@@ -106,6 +95,7 @@ public class GameplayTools {
         return value + 1;
     }
 
+    //Tells if cell is alive or not
     private boolean checkCellStatus(int x, int y) {
         for (Cell cell : this.cells) {
             if (cell.getX() == x && cell.getY() == y) {
@@ -116,10 +106,12 @@ public class GameplayTools {
         return false;
     }
 
+    //Compares the location of two cells and tells if they're overlapping
     private boolean notOverlapping(Cell cell, int otherX, int otherY) {
         return !(cell.getX() == otherX && cell.getY() == otherY);
     }
 
+    //returns the list of cells
     public List getCells() {
         return this.cells;
     }

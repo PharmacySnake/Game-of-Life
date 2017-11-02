@@ -35,8 +35,4 @@ public class Cell {
     protected void setStatus(boolean newStatus) {
         this.lifeStatus = newStatus;
     }
-
-    protected boolean checkLocation(int otherX, int otherY) {
-        return this.locationX == otherX && this.locationY == otherY;
-    }
 }

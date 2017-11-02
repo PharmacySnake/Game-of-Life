@@ -16,14 +16,14 @@ public class GameOfLife {
         GameBoard board = new GameBoard();
         board.askForDimensions();
 
-        GameplayTools tools = new GameplayTools(10, board);
+        GameplayTools tools = new GameplayTools(20, board);
         Visuals visuals = new Visuals(tools, board.getWidth(), board.getHeight());
         SwingUtilities.invokeLater(visuals);
 
         while (true) {
-            visuals.generation();
-            TimeUnit.MILLISECONDS.sleep(10);
-            tools.checkVitality();
+            visuals.writeGeneration();
+            TimeUnit.MILLISECONDS.sleep(1);
+            tools.nextGeneration();
         }
     }
 

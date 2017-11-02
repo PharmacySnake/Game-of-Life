@@ -1,7 +1,6 @@
 package visuals;
 
 import java.awt.Container;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.util.List;
 import javax.swing.JFrame;
@@ -15,26 +14,25 @@ public class Visuals implements Runnable {
 
     private JFrame frame;
     private final GameplayTools tools;
-    private final List<Cell> cells;
+    private List<Cell> cells;
     private final int width;
-    private final JTextArea area = new JTextArea();
+    private final JTextArea area;
     private final JPanel panel = new JPanel();
-    private final int dmnsWidth;
-    private final int dmnsHeight;
+    Font font = new Font("Consolas", Font.CENTER_BASELINE, 12);
 
     public Visuals(GameplayTools tools, int width, int height) {
         this.tools = tools;
         this.tools.setGame();
         this.cells = this.tools.getCells();
         this.width = width;
-        this.dmnsWidth = width * 16;
-        this.dmnsHeight = height * 21;
+        this.area = new JTextArea(width, height);
+        this.area.setFont(this.font);
+
     }
 
     @Override
     public void run() {
         this.frame = new JFrame("Game of Life");
-        this.frame.setPreferredSize(new Dimension(this.dmnsWidth, this.dmnsHeight));
         this.frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         generateComponents(this.frame.getContentPane());
@@ -48,26 +46,30 @@ public class Visuals implements Runnable {
         container.add(panel);
     }
 
-    public void generation() {
-        Font font = new Font("Consolas", Font.CENTER_BASELINE, 12);
-        this.area.setFont(font);
-        String s = "";
+    public void writeGeneration() {
+        updateList();
+        String listOnString = "";
 
         int row = 0;
         for (Cell cell : this.cells) {
             if (row == this.width) {
                 row = 0;
-                s += "\n";
+                listOnString += "\n";
             }
+            
             if (cell.getStatus()) {
-                s += "■ ";
+                listOnString += "■ ";
 
             } else {
-                s += "  ";
+                listOnString += "  ";
             }
             row++;
         }
-        
-        this.area.setText(s);
+
+        this.area.setText(listOnString);
+    }
+    
+    public void updateList() {
+        this.cells = this.tools.getCells();
     }
 }
