@@ -59,7 +59,6 @@ public class GameplayTools {
                 nextGeneration.add(new Cell(cell.getX(), cell.getY(), false));
             }
         });
-        System.out.println(this.cells);
         this.cells = nextGeneration;
     }
 
